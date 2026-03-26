@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productivity Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark-black">
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-brand">
+      <i class="ri-dashboard-3-line"></i>
+      <span>Productivity Dashboard</span>
+    </div>
+
+    <div class="header-clock">
+      <span id="clock" class="clock-time"></span>
+      <span id="date" class="clock-date"></span>
+    </div>
+
+    <div class="header-weather" id="weather-info">
+      <i class="ri-loader-4-line spin" id="weather-loader"></i>
+      <span id="weather-text">Loading weather…</span>
+    </div>
+
+    <button class="theme-btn" id="theme-btn" title="Cycle theme">
+      <i class="ri-palette-line"></i>
+      <span id="theme-label">dark-black</span>
+    </button>
+  </header>
+
+  <!-- ===== MAIN GRID ===== -->
+  <main class="dashboard-grid">
+
+    <!-- ===== TODO STUDIO ===== -->
+    <section class="panel todo-panel" id="todo-panel">
+      <div class="panel-header">
+        <h2><i class="ri-task-line"></i> To-Do Studio</h2>
+        <span class="panel-stat" id="todo-stats">0/0 done · 0 focus</span>
+      </div>
+
+      <div class="todo-add-row">
+        <input type="text" id="task-input" placeholder="Add a task…" autocomplete="off" />
+        <label class="focus-toggle-label" title="Mark as focus task">
+          <input type="checkbox" id="task-focus-toggle" />
+          <i class="ri-focus-3-line"></i>
+        </label>
+        <button class="btn-icon" id="add-task-btn" title="Add task">
+          <i class="ri-add-line"></i>
+        </button>
+      </div>
+
+      <div class="todo-progress-wrap">
+        <div class="todo-progress-track">
+          <div class="todo-progress-bar" id="todo-progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="todo-filters">
+        <button class="todo-filter active" data-filter="all">All</button>
+        <button class="todo-filter" data-filter="focus">Focus</button>
+        <button class="todo-filter" data-filter="done">Done</button>
+      </div>
+
+      <ul class="task-list" id="task-list"></ul>
+    </section>
+
+    <!-- ===== DAILY PLANNER ===== -->
+    <section class="panel planner-panel" id="planner-panel">
+      <div class="panel-header">
+        <h2><i class="ri-calendar-schedule-line"></i> Daily Planner</h2>
+        <span class="panel-stat" id="planner-filled">0 / 19 blocks filled</span>
+      </div>
+
+      <div class="planner-next-anchor" id="planner-next" style="display:none;">
+        <i class="ri-arrow-right-circle-line"></i> <span id="planner-next-text"></span>
+      </div>
+
+      <div class="planner-timeline" id="planner-timeline">
+        <!-- Slots rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ===== DAILY GOALS ===== -->
+    <section class="panel goals-panel" id="goals-panel">
+      <div class="panel-header">
+        <h2><i class="ri-focus-2-line"></i> Daily Goals</h2>
+        <button class="btn-text" id="reset-goals-btn" title="Reset all goals">
+          <i class="ri-refresh-line"></i> Reset
+        </button>
+      </div>
+
+      <div class="goals-spotlight" id="goals-spotlight">No goals set. Add one below!</div>
+
+      <div class="goals-radial-row">
+        <div class="radial-wrap">
+          <svg viewBox="0 0 80 80" class="radial-svg">
+            <circle cx="40" cy="40" r="32" class="radial-bg-circle" />
+            <circle cx="40" cy="40" r="32" class="radial-fg-circle" id="radial-progress-circle" />
+          </svg>
+          <span class="radial-text" id="radial-progress-text">0%</span>
+        </div>
+        <span class="goals-stat" id="goals-stats">0/0 goals achieved</span>
+      </div>
+
+      <div class="goals-add-row">
+        <input type="text" id="goal-input" placeholder="Add a goal…" autocomplete="off" />
+        <select id="goal-priority" class="priority-select">
+          <option value="high">High</option>
+          <option value="medium" selected>Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <button class="btn-icon" id="add-goal-btn" title="Add goal">
+          <i class="ri-add-line"></i>
+        </button>
+      </div>
+
+      <div class="goals-list" id="goals-list"></div>
+    </section>
+
+    <!-- ===== POMODORO TIMER ===== -->
+    <section class="panel pomodoro-panel" id="pomodoro-panel">
+      <div class="panel-header">
+        <h2><i class="ri-timer-line"></i> Pomodoro Timer</h2>
+        <span class="panel-stat" id="pomo-sessions">Sessions: 0</span>
+      </div>
+
+      <div class="pomo-mode-badge" id="pomo-mode">Work Session</div>
+
+      <div class="pomo-display" id="pomo-display">25:00</div>
+
+      <div class="pomo-controls">
+        <button class="pomo-btn pomo-start" id="pomo-start">
+          <i class="ri-play-line"></i> Start
+        </button>
+        <button class="pomo-btn pomo-reset" id="pomo-reset">
+          <i class="ri-restart-line"></i> Reset
+        </button>
+      </div>
+
+      <div class="pomo-progress-track">
+        <div class="pomo-progress-bar" id="pomo-progress-bar"></div>
+      </div>
+    </section>
+
+    <!-- ===== MOTIVATION ===== -->
+    <section class="panel motivation-panel" id="motivation-panel">
+      <div class="panel-header">
+        <h2><i class="ri-lightbulb-flash-line"></i> Motivation</h2>
+        <button class="btn-text" id="refresh-quote-btn" title="Get a new quote">
+          <i class="ri-refresh-line"></i> Refresh
+        </button>
+      </div>
+
+      <div class="quote-body">
+        <i class="ri-double-quotes-l quote-icon"></i>
+        <p class="quote-text" id="quote-text">Loading…</p>
+        <p class="quote-author" id="quote-author"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
